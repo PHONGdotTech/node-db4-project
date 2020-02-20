@@ -30,14 +30,13 @@ exports.up = function(knex) {
       .references('id')
       .inTable('recipes')
       .onUpdate('CASCADE')
-      .onDelete('DELETE')
+      .onDelete('CASCADE');
   })
 
   .createTable('recipes_ingredients', tbl =>{
       tbl.primary(["recipe_id", "ingredient_id"]);
 
-      tbl.float('quantity')
-      .notNullable();
+      
 
       // Foreign Key
       tbl.integer('recipe_id')
@@ -46,7 +45,7 @@ exports.up = function(knex) {
       .references('id')
       .inTable('recipes')
       .onUpdate('CASCADE')
-      .onDelete('DELETE')
+      .onDelete('CASCADE')
 
       // Foreign Key
       tbl.integer('ingredient_id')
@@ -55,11 +54,17 @@ exports.up = function(knex) {
       .references('id')
       .inTable('ingredients')
       .onUpdate('CASCADE')
-      .onDelete('DELETE')
+      .onDelete('CASCADE');
+      
+      tbl.float('quantity')
+      .notNullable();
   })
 
 };
 
 exports.down = function(knex) {
-  
+  return knex.schema.dropTableIfExists('recipes_ingredients')
+    .dropTableIfExists('steps')
+    .dropTableIfExists('ingredients')
+    .dropTableIfExists('recipes')
 };
