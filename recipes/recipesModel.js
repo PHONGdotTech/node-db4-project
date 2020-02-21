@@ -19,7 +19,6 @@ function getShoppingList(recipe_id){
 
 function getInstructions(recipe_id){
     return db('steps')
-        .join('recipes', 'steps.recipe_id','recipes.id')
         .select('steps.step_number', 'steps.instructions')
         .orderBy('step_number')
         .where({recipe_id: recipe_id})
